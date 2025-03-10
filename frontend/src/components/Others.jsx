@@ -235,7 +235,7 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{res.assignedBy}</td>
                   <td style={{ display: 'flex', justifyContent: 'center' }}>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleResponsibilityUpdateClick(res); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         margin: "2px",
@@ -251,7 +251,7 @@ const Others = ({ data: propsData }) => {
                       <FaEdit />
                     </button>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleResponsibilityDelete(index); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         padding: "4px 8px",
@@ -319,7 +319,7 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{cont.Benefit}</td>
                   <td style={{ display: 'flex', justifyContent: 'center' }}>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleContributionUpdateClick(cont); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         margin: "2px",
@@ -335,7 +335,7 @@ const Others = ({ data: propsData }) => {
                       <FaEdit />
                     </button>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleContributionDelete(index); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         padding: "4px 8px",
@@ -407,7 +407,7 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{award.description}</td>
                   <td style={{ display: 'flex', justifyContent: 'center' }}>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleAwardUpdateClick(award); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         margin: "2px",
@@ -423,7 +423,7 @@ const Others = ({ data: propsData }) => {
                       <FaEdit />
                     </button>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleAwardDelete(index); }}
+                      onClick={(e) => { e.stopPropagation(); }}
                       style={{
                         fontSize: "16px",
                         padding: "4px 8px",
