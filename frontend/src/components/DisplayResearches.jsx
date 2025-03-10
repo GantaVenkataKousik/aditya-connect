@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MdDelete } from "react-icons/md";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
-
+import { FaEdit, FaTrash } from 'react-icons/fa';
 const DisplayResearches = () => {
   const [researches, setResearches] = useState([]);
   const [filter, setFilter] = useState('approved');
@@ -87,7 +87,7 @@ const DisplayResearches = () => {
 
       if (response.ok) {
         const updatedResearch = await response.json();
-        setResearches(researches.map((research) => 
+        setResearches(researches.map((research) =>
           research._id === id ? updatedResearch : research
         ));
         console.log('Research updated successfully.');
@@ -101,10 +101,10 @@ const DisplayResearches = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <select 
-        value={filter} 
+      <select
+        value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        style={{ marginBottom: '20px',width:'130px',height:'30px' }}
+        style={{ marginBottom: '20px', width: '130px', height: '30px' }}
       >
         <option value="approved">Approved</option>
         <option value="rejected">Rejected</option>
@@ -119,7 +119,7 @@ const DisplayResearches = () => {
               if (filter === 'rejected') return research.status === false && research.rejected === true;
               if (filter === 'notApproved') return research.status === false && research.rejected === false;
               return true;
-            }) 
+            })
             .map((research) => (
               <div
                 key={research._id}
@@ -134,14 +134,14 @@ const DisplayResearches = () => {
                 }}
               >
                 <div>
-                <h3
-                 style={hoverStyle}
-                //  onClick={() => navigate(`/researchtext/${research._id}`)}
-                 onMouseEnter={() => setHover(true)}
-                 onMouseLeave={() => setHover(false)}
-               >
-               {research.title}
-               </h3>
+                  <h3
+                    style={hoverStyle}
+                    //  onClick={() => navigate(`/researchtext/${research._id}`)}
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                  >
+                    {research.title}
+                  </h3>
                   <p>{research.description}</p>
                   <p>
                     <strong>Published Date:</strong>{' '}
@@ -163,7 +163,7 @@ const DisplayResearches = () => {
                       gap: '5px',
                     }}
                   >
-                    <HiMiniPencilSquare /> Update
+                    <FaEdit />
                   </button>
                   <button
                     onClick={() => handleDelete(research._id)}
@@ -179,7 +179,7 @@ const DisplayResearches = () => {
                       gap: '5px',
                     }}
                   >
-                    <MdDelete /> Delete
+                    <FaTrash />
                   </button>
                 </div>
               </div>

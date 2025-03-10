@@ -19,13 +19,14 @@ const feedbackSchema = new mongoose.Schema({
     },
     averagePercentage: {
         type: Number,
-      
+
     },
     selfAssessmentMarks: {
         type: Number,
-       
+
     },
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    imagePath: { type: String }
 });
 
 

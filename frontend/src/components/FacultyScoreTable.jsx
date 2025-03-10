@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
 const FacultyScoreTable = () => {
   const [data, setData] = useState([]);
 
@@ -47,51 +49,86 @@ const FacultyScoreTable = () => {
     fetchData();
   }, []);
 
+  const handleEdit = async (id) => {
+    const data = await fetch(`http://localhost:5000/research/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (data.ok) {
+      toast.success("Research updated successfully");
+    } else {
+      toast.error("Failed to update research");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const data = await fetch(`http://localhost:5000/research/delete/${id}`, {
+      method: 'DELETE',
+    });
+    if (data.ok) {
+      toast.success("Research deleted successfully");
+    } else {
+      toast.error("Failed to delete research");
+    }
+  };
+
   return (
     <>
-     <Navbar/>
-    <div className="container mx-auto p-6">
-      <h2 className="text-xl font-bold mb-4">Faculty Self Appraisal - Performance Parameters</h2>
-      <table className="table-auto border-collapse border border-gray-400 w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-400 px-4 py-2">S. No</th>
-            <th className="border border-gray-400 px-4 py-2">Parameter</th>
-            <th className="border border-gray-400 px-4 py-2">Max Score</th>
-            <th className="border border-gray-400 px-4 py-2">Min Score for Doctorate</th>
-            <th className="border border-gray-400 px-4 py-2">Min Score for Non-Doctorate</th>
-            <th className="border border-gray-400 px-4 py-2">Obtained Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length > 0 ? (
-            data.map((row, index) => (
-              <tr key={index} className="text-center border border-gray-400">
-                <td className="border border-gray-400 px-4 py-2">{row.s_no}</td>
-                <td className="border border-gray-400 px-4 py-2">{row.parameter}</td>
-                <td className="border border-gray-400 px-4 py-2">{row.max_score}</td>
-                <td className="border border-gray-400 px-4 py-2">{row.min_score_doctorate}</td>
-                <td className="border border-gray-400 px-4 py-2">{row.min_score_non_doctorate}</td>
-                <td className="border border-gray-400 px-4 py-2">{row.obtained_score}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="6" className="text-center border border-gray-400 px-4 py-2">Loading data...</td>
+      <ToastContainer />
+      <Navbar />
+      <div className="container mx-auto p-6">
+        <h2 className="text-xl font-bold mb-4">Faculty Self Appraisal - Performance Parameters</h2>
+        <table className="table-auto border-collapse border border-gray-400 w-full">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border border-gray-400 px-4 py-2">S. No</th>
+              <th className="border border-gray-400 px-4 py-2">Parameter</th>
+              <th className="border border-gray-400 px-4 py-2">Max Score</th>
+              <th className="border border-gray-400 px-4 py-2">Min Score for Doctorate</th>
+              <th className="border border-gray-400 px-4 py-2">Min Score for Non-Doctorate</th>
+              <th className="border border-gray-400 px-4 py-2">Obtained Score</th>
+              <th className="border border-gray-400 px-4 py-2">Actions</th>
             </tr>
-          )}
-          <tr className="font-bold bg-gray-100">
-            <td className="border border-gray-400 px-4 py-2" colSpan="2">Total Marks</td>
-            <td className="border border-gray-400 px-4 py-2">200</td>
-            <td className="border border-gray-400 px-4 py-2">135</td>
-            <td className="border border-gray-400 px-4 py-2">110</td>
-            <td className="border border-gray-400 px-4 py-2">
-              {data.reduce((sum, row) => sum + (row.obtained_score !== '-' ? Number(row.obtained_score) : 0), 0)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {data.length > 0 ? (
+              data.map((row, index) => (
+                <tr key={index} className="text-center border border-gray-400">
+                  <td className="border border-gray-400 px-4 py-2">{row.s_no}</td>
+                  <td className="border border-gray-400 px-4 py-2">{row.parameter}</td>
+                  <td className="border border-gray-400 px-4 py-2">{row.max_score}</td>
+                  <td className="border border-gray-400 px-4 py-2">{row.min_score_doctorate}</td>
+                  <td className="border border-gray-400 px-4 py-2">{row.min_score_non_doctorate}</td>
+                  <td className="border border-gray-400 px-4 py-2">{row.obtained_score}</td>
+                  <td className="border border-gray-400 px-4 py-2">
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button onClick={() => handleEdit(row._id)} style={{ width: 'auto' }}>
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => handleDelete(row._id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}>  <FaTrash /> </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center border border-gray-400 px-4 py-2">Loading data...</td>
+              </tr>
+            )}
+            <tr className="font-bold bg-gray-100">
+              <td className="border border-gray-400 px-4 py-2" colSpan="2">Total Marks</td>
+              <td className="border border-gray-400 px-4 py-2">200</td>
+              <td className="border border-gray-400 px-4 py-2">135</td>
+              <td className="border border-gray-400 px-4 py-2">110</td>
+              <td className="border border-gray-400 px-4 py-2">
+                {data.reduce((sum, row) => sum + (row.obtained_score !== '-' ? Number(row.obtained_score) : 0), 0)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

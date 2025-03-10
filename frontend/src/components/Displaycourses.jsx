@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './DisplayCourses.css';
 import { IoMdAdd } from 'react-icons/io';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DisplayCourses = ({ coursesData }) => {
   const [data, setData] = useState(coursesData || []);
@@ -60,11 +62,16 @@ const DisplayCourses = ({ coursesData }) => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
-      if (response.ok) {
-        setData(data.filter((course) => course._id !== id));
+      const data = await response.json();
+      if (data.success) {
+        setData(data.deletedCourse);
+        toast.success('Course deleted successfully!');
+      } else {
+        toast.error('Failed to delete course. Please try again.');
       }
     } catch (error) {
       console.error('Error deleting course:', error);
+      toast.error('An error occurred while deleting the course. Please try again.');
     }
   };
 
@@ -87,7 +94,7 @@ const DisplayCourses = ({ coursesData }) => {
         console.error('No token found in localStorage');
         return;
       }
-  
+
       const response = await fetch(`http://localhost:5000/update/courses/${selectedCourse._id}`, {
         method: 'PUT',
         headers: {
@@ -96,27 +103,31 @@ const DisplayCourses = ({ coursesData }) => {
         },
         body: JSON.stringify(formData),
       });
-  
-      if (response.ok) {
-        const updatedCourse = await response.json();
-  
+
+      const data = await response.json();
+      if (data.success) {
+        const updatedCourse = data.updatedCourse;
+
         // Update the course in the existing state
         setData((prevData) =>
           prevData.map((course) =>
             course._id === updatedCourse._id ? updatedCourse : course
           )
         );
-  
+
         setShowForm(false); // Close the form after successful update
         setSelectedCourse(null); // Clear the selection
+        toast.success('Details successfully updated!');
       } else {
         console.error('Failed to update course:', response.statusText);
+        toast.error('Failed to update course. Please try again.');
       }
     } catch (error) {
       console.error('Error updating course:', error);
+      toast.error('An error occurred while updating the course. Please try again.');
     }
   };
-  
+
 
   // **Calculate average pass percentage and self-assessment marks**
   const totalPassPercentage = data.reduce((acc, cls) => acc + cls.passPercentage, 0);
@@ -133,6 +144,7 @@ const DisplayCourses = ({ coursesData }) => {
 
   return (
     <div>
+      <ToastContainer />
       <table className='courses-table'>
         <thead>
           <tr>
@@ -163,7 +175,7 @@ const DisplayCourses = ({ coursesData }) => {
                 <td>{course.numberOfStudents}</td>
                 <td>{course.passCount}</td>
                 <td>{((course.passCount / course.numberOfStudents) * 100).toFixed(2)}%</td>
-                
+
                 {index === 0 && (
                   <>
                     <td rowSpan={data.length}>{averagePassPercentage}</td>
@@ -172,8 +184,8 @@ const DisplayCourses = ({ coursesData }) => {
                 )}
 
                 <td>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }} 
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }}
                     style={{
                       fontSize: "12px",
                       padding: "4px 8px",
@@ -191,8 +203,8 @@ const DisplayCourses = ({ coursesData }) => {
                     Delete
                   </button>
 
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleUpdateClick(course); }} 
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleUpdateClick(course); }}
                     style={{
                       fontSize: "12px",
                       padding: "4px 8px",

@@ -7,13 +7,14 @@ const ProctoringSchema = new mongoose.Schema({
     passedStudents: { type: Number, required: true },
     averagePercentage: {
         type: Number,
-      
+
     },
     selfAssessmentMarks: {
         type: Number,
-       
+
     },
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    imagePath: { type: String }
 });
 
 module.exports = mongoose.model("Proctoring", ProctoringSchema);

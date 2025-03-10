@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DisplayProctoring.css'; // Import the CSS file
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ProctoringTable = ({ proctoringData }) => {
     const [data, setData] = useState(proctoringData || []); // Initialize with props data if available
@@ -53,8 +55,38 @@ const ProctoringTable = ({ proctoringData }) => {
         return 0;
     };
 
+
+    const handleEdit = async (id) => {
+        const data = await fetch(`http://localhost:5000/partb/proctoring/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        if (data.ok) {
+            toast.success("Proctoring updated successfully");
+        } else {
+            toast.error("Failed to update proctoring");
+        }
+    };
+
+    const handleDelete = async (id) => {
+        const data = await fetch(`http://localhost:5000/partb/proctoring/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (data.ok) {
+            toast.success("Proctoring deleted successfully");
+        } else {
+            toast.error("Failed to delete proctoring");
+        }
+    };
     return (
         <div>
+            <ToastContainer />
             <table className="proctoring-table">
                 <thead>
                     <tr>
@@ -66,6 +98,7 @@ const ProctoringTable = ({ proctoringData }) => {
                         <th>Pass Percentage (B/A * 100)</th>
                         <th>Average %</th>
                         <th>Self-Assessment Marks</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,6 +123,12 @@ const ProctoringTable = ({ proctoringData }) => {
                                             <td rowSpan={data.length}>{data[data.length - 1]?.selfAssessmentMarks || selfAssessmentMarks}</td>
                                         </>
                                     )}
+                                    <td style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <div style={{ display: 'flex', gap: '10px' }}>
+                                            <button onClick={() => handleEdit(proctor.id)} style={{ width: 'auto' }}>   <FaEdit /></button>
+                                            <button onClick={() => handleDelete(proctor.id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}><FaTrash /> </button>
+                                        </div>
+                                    </td>
                                 </tr>
                             );
                         })
