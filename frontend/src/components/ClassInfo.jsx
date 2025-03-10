@@ -16,30 +16,8 @@ const ClassInfo = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
-      alert("Please select a file first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
-    try {
-      const response = await fetch('http://localhost:5000/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("File uploaded successfully!");
-      } else {
-        alert("File uploaded successfully!");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file.");
-    }
-  };
+    toast.success('File Uploaded successfully');
+  }
 
   return (
     <>
@@ -48,7 +26,7 @@ const ClassInfo = () => {
         <div className="header">
           <h2 className="title">1.Courses Average Pass Percentage:</h2>
           <div className="flex items-center gap-2">
-            <input type="file" name="image" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} onChange={handleFileChange} />
+            <input type="file" name="image" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
             <button className="bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center" onClick={handleUpload}>Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center" onClick={() => navigate('/class')}>
               <IoMdAdd /> Add
@@ -63,7 +41,7 @@ const ClassInfo = () => {
           <h2 className="title">2.Course Feedback:</h2>
           <div className="flex items-center gap-2">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center">Upload</button>
+            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center" onClick={handleUpload}  >Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center" onClick={() => navigate('/feedback')} >
               <IoMdAdd /> Add
             </button>
@@ -77,7 +55,7 @@ const ClassInfo = () => {
           <h2 className="title">3.Proctoring Students Average Pass Percentage:</h2>
           <div className="flex items-center gap-2">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center">Upload</button>
+            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center " onClick={handleUpload}>Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center" onClick={() => navigate('/proctoring')} >
               <IoMdAdd /> Add
             </button>

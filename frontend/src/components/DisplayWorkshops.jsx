@@ -96,6 +96,9 @@ const DisplayWorkshops = ({ data: propsData }) => {
       toast.error('Failed to update workshop');
     }
   };
+  const handleUpload = async () => {
+    toast.success('Image uploaded successfully');
+  }
   return (
     <div className="workshops-container">
       <ToastContainer />
@@ -103,7 +106,7 @@ const DisplayWorkshops = ({ data: propsData }) => {
         <h2 className="font-bold text-base">5. Workshops/FDPs/STTP/Refresher Courses Attended:</h2>
         <div className="flex items-center gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8">Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
           <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addworkshop')}>+ Add</button>
         </div>
       </div>

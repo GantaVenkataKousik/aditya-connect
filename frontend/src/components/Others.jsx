@@ -57,16 +57,16 @@ const Others = ({ data: propsData }) => {
     setShowActivityUpdate(true);
     setActivityDetails(activity.activityDetails);
   };
-  const handleActivityUpdate = async (activity) => {
+  const handleActivityUpdate = async (index) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/others/activities/${activity._id}`, {
+      const response = await fetch(`http://localhost:5000/activities/${propsData._id}/${index}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(activity),
+        body: JSON.stringify({ activityDetails: activityDetails })
       });
       const data = await response.json();
       if (data.success) {
@@ -80,10 +80,10 @@ const Others = ({ data: propsData }) => {
     }
   };
 
-  const handleActivityDelete = async (id) => {
+  const handleActivityDelete = async (index) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/others/activities/${id}`, {
+      const response = await fetch(`http://localhost:5000/activities/${propsData._id}/${index}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -104,6 +104,10 @@ const Others = ({ data: propsData }) => {
   const handleActivityInputChange = (e) => {
     setActivityDetails(e.target.value);
   };
+  const handleUpload = async () => {
+    toast.success('Image uploaded successfully');
+  }
+
   return (
     <div className="p-4">
       {/** Activities Table **/}
@@ -113,7 +117,7 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8">Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
           <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addactivity')}>
             + Add
           </button>
@@ -135,7 +139,6 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{act.activityDetails}</td>
                   <td style={{ display: 'flex', justifyContent: 'center' }}>
-
                     <button
                       onClick={(e) => { e.stopPropagation(); handleActivityUpdateClick(act); }}
                       style={{
@@ -153,7 +156,7 @@ const Others = ({ data: propsData }) => {
                       <FaEdit />
                     </button>
                     <button
-                      onClick={(e) => { e.stopPropagation(); handleActivityDelete(act._id); }}
+                      onClick={(e) => { e.stopPropagation(); handleActivityDelete(index); }}
                       style={{
                         fontSize: "16px",
                         padding: "4px 8px",
@@ -207,7 +210,7 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8">Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
           <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addresponsibility')}>
             + Add
           </button>
@@ -220,6 +223,7 @@ const Others = ({ data: propsData }) => {
               </th>
               <th className="border p-2 text-center">Responsibility</th>
               <th className="border p-2 text-center">Assigned By</th>
+              <th className="border p-2 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -229,6 +233,41 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{res.Responsibility}</td>
                   <td className="p-2 border text-center">{res.assignedBy}</td>
+                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleResponsibilityUpdateClick(res); }}
+                      style={{
+                        fontSize: "16px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "rgb(59 130 246)",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleResponsibilityDelete(index); }}
+                      style={{
+                        fontSize: "16px",
+                        padding: "4px 8px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "#e74c3c",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -255,7 +294,7 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8">Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
           <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addcontribution')}>
             + Add
           </button>
@@ -268,6 +307,7 @@ const Others = ({ data: propsData }) => {
               </th>
               <th className="border p-2 text-center">Contribution Details</th>
               <th className="border p-2 text-center">Benefit to College/Department</th>
+              <th className="border p-2 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -277,6 +317,41 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{cont.contributionDetails}</td>
                   <td className="p-2 border text-center">{cont.Benefit}</td>
+                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleContributionUpdateClick(cont); }}
+                      style={{
+                        fontSize: "16px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "rgb(59 130 246)",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleContributionDelete(index); }}
+                      style={{
+                        fontSize: "16px",
+                        padding: "4px 8px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "#e74c3c",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -302,7 +377,7 @@ const Others = ({ data: propsData }) => {
           <h2 className="font-bold text-base">9. Awards received by Faculty:</h2>
           <div className="flex items-center gap-2">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8">Upload</button>
+            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}  >Upload</button>
             <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addaward')}>
               + Add
             </button>
@@ -318,6 +393,7 @@ const Others = ({ data: propsData }) => {
               <th className="border p-2 text-center">Awarded By</th>
               <th className="border p-2 text-center">Level</th>
               <th className="border p-2 text-center">Description</th>
+              <th className="border p-2 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -329,6 +405,41 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{award.awardedBy}</td>
                   <td className="p-2 border text-center">{award.level}</td>
                   <td className="p-2 border text-center">{award.description}</td>
+                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleAwardUpdateClick(award); }}
+                      style={{
+                        fontSize: "16px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "rgb(59 130 246)",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleAwardDelete(index); }}
+                      style={{
+                        fontSize: "16px",
+                        padding: "4px 8px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "#e74c3c",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (

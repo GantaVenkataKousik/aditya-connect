@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { updateFeedback, deleteFeedback, updateProctoring, deleteProctoring, updateResearch, deleteResearch, updateWorkshops, deleteWorkshops, updateOutreach, deleteOutreach } = require('../controllers/partbController');
+const { updateFeedback, deleteFeedback, updateProctoring, deleteProctoring, updateResearch, deleteResearch, updateWorkshops, deleteWorkshops, updateOutreach, deleteOutreach, updateActivityByIndex, deleteActivityByIndex, updateResponsibilityByIndex, deleteResponsibilityByIndex, updateContributionByIndex, deleteContributionByIndex, updateAwardByIndex, deleteAwardByIndex } = require('../controllers/partbController');
 
 //FEEDBACK Controllers
 router.put('/feedback/:id', updateFeedback);
@@ -22,5 +22,20 @@ router.delete('/workshops/:id', deleteWorkshops);
 router.put('/outreach/:id', updateOutreach);
 router.delete('/outreach/:id', deleteOutreach);
 
+//activities Controllers
+router.put('/activities/:id/:index', updateActivityByIndex);
+router.delete('/activities/:id/:index', deleteActivityByIndex);
+
+//Responsibilities Controllers
+router.put('/responsibilities/:id/:index', updateResponsibilityByIndex);
+router.delete('/responsibilities/:id/:index', deleteResponsibilityByIndex);
+
+//Contribution Controllers
+router.put('/contribution/:id/:index', updateContributionByIndex);
+router.delete('/contribution/:id/:index', deleteContributionByIndex);
+
+//Awards Controllers
+router.put('/awards/:id/:index', updateAwardByIndex);
+router.delete('/awards/:id/:index', deleteAwardByIndex);
 
 module.exports = router;

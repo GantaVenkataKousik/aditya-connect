@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Papers = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Papers = () => {
         <button onClick={() => navigate('/addpapers')}> + Add</button>
       </div>
       <h3 style={{ fontWeight: 'bold', fontSize: '1.125rem', marginBottom: '1rem' }}>
-      d) Research-Others 
+        d) Research-Others
       </h3>
       <h3 style={{ fontWeight: 'bold', fontSize: '1.125rem', marginBottom: '1rem' }}>
         Conference Papers:
@@ -63,6 +64,7 @@ const Papers = () => {
                 <th style={{ padding: '0.5rem', border: '1px solid #000' }}>S.No</th>
                 <th style={{ padding: '0.5rem', border: '1px solid #000' }}>Paper details in IEEE format</th>
                 <th style={{ padding: '0.5rem', border: '1px solid #000' }}>Author Position</th>
+                <th style={{ padding: '0.5rem', border: '1px solid #000' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -72,6 +74,16 @@ const Papers = () => {
                     <td style={{ padding: '0.5rem', border: '1px solid #000' }}>{index + 1}</td>
                     <td style={{ padding: '0.5rem', border: '1px solid #000' }}>{paper.paperDetails || '-'}</td>
                     <td style={{ padding: '0.5rem', border: '1px solid #000' }}>{paper.authorPosition || '-'}</td>
+                    <td style={{ display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <button style={{ width: 'auto' }}>
+                          <FaEdit />
+                        </button>
+                        <button style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}>
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
