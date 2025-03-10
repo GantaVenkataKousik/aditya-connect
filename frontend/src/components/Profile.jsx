@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./Profile.css";
-
+import { FaDownload } from 'react-icons/fa';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 const Profile = ({ lecturerDetails: initialDetails }) => {
   const [lecturerDetails, setLecturerDetails] = useState(initialDetails || {});
   const [loading, setLoading] = useState(!initialDetails);
@@ -40,6 +42,31 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
 
     fetchLecturerDetails();
   }, [initialDetails]);
+  const downloadProfilePDF = () => {
+    const input = document.getElementById('profileContent');
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const currentDate = new Date().toISOString().split('T')[0];
+      pdf.save(`profile_report_${currentDate}.pdf`);
+    });
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -47,11 +74,16 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
   return (
     <div className="profile-container">
       <Navbar />
-      <div className="profile-content">
+      <div className="profile-content" id="profileContent">
         {/* General Information */}
         <h1 style={{ fontFamily: "YourFontFamily", fontSize: "24px", fontWeight: "bold", padding: "25px" }}>
           PART A: Personal Information
         </h1>
+        <div className='flex justify-end'>
+          <button onClick={downloadProfilePDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }}>
+            <FaDownload style={{ marginRight: '8px' }} /> Profile
+          </button>
+        </div>
         <section className="profile-section">
           <h2>1. General Information</h2>
           <p style={{ marginLeft: "20px", marginBottom: "10px", padding: "10px" }}>
