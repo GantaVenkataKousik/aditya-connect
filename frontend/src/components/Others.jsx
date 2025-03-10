@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Others = ({ data: propsData }) => {
   const navigate = useNavigate();
@@ -11,45 +13,97 @@ const Others = ({ data: propsData }) => {
   const [activityMarks, setActivityMarks] = useState(propsData?.ActivityMarks || 0);
   const [responsibilityMarks, setResponsibilityMarks] = useState(propsData?.ResponsibilityMarks || 0);
   const [contributionMarks, setContributionMarks] = useState(propsData?.ContributionMarks || 0);
+  const [showActivityUpdate, setShowActivityUpdate] = useState(false);
+  const [activityDetails, setActivityDetails] = useState('');
+  const fetchAll = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/others/data', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setActivities(data.Activities);
+        setResponsibilities(data.Responsibilities);
+        setContribution(data.Contribution);
+        setAwards(data.Awards);
+        setActivityMarks(data.ActivityMarks);
+        setResponsibilityMarks(data.ResponsibilityMarks);
+        setContributionMarks(data.ContributionMarks);
+      } else {
+        console.error('Error fetching Data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!propsData) {
-      const fetchAll = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const response = await fetch('http://localhost:5000/others/data', {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            setActivities(data.Activities);
-            setResponsibilities(data.Responsibilities);
-            setContribution(data.Contribution);
-            setAwards(data.Awards);
-            setActivityMarks(data.ActivityMarks);
-            setResponsibilityMarks(data.ResponsibilityMarks);
-            setContributionMarks(data.ContributionMarks);
-          } else {
-            console.error('Error fetching Data');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
       fetchAll();
     }
   }, [propsData]);
 
   if (loading) return <p>Loading...</p>;
 
+  const handleActivityUpdateClick = (activity) => {
+    setShowActivityUpdate(true);
+    setActivityDetails(activity.activityDetails);
+  };
+  const handleActivityUpdate = async (activity) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/others/activities/${activity._id}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(activity),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success('Activity updated successfully');
+        fetchAll();
+      } else {
+        toast.error('Failed to update activity');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleActivityDelete = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/others/activities/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success('Activity deleted successfully');
+        fetchAll();
+      } else {
+        toast.error('Failed to delete activity');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  const handleActivityInputChange = (e) => {
+    setActivityDetails(e.target.value);
+  };
   return (
     <div className="p-4">
       {/** Activities Table **/}
@@ -71,6 +125,7 @@ const Others = ({ data: propsData }) => {
                 S.NO
               </th>
               <th className="border p-2 text-center">Activity Details</th>
+              <th className="border p-2 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +134,42 @@ const Others = ({ data: propsData }) => {
                 <tr key={index} className="border">
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{act.activityDetails}</td>
+                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleActivityUpdateClick(act); }}
+                      style={{
+                        fontSize: "16px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "rgb(59 130 246)",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleActivityDelete(act._id); }}
+                      style={{
+                        fontSize: "16px",
+                        padding: "4px 8px",
+                        margin: "2px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "#e74c3c",
+                        color: "white",
+                        transition: "0.3s",
+                        width: "auto"
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -96,6 +187,17 @@ const Others = ({ data: propsData }) => {
             </tr>
           </tbody>
         </table>
+        <ToastContainer />
+        {showActivityUpdate && (
+          <div className="update-form">
+            <h2>Update Activity</h2>
+            <form onSubmit={handleActivityUpdate}>
+              <input type="text" name="activityDetails" value={activityDetails} onChange={handleActivityInputChange} placeholder="Activity Details" required />
+              <button type="submit">Update</button>
+              <button type="button" onClick={() => setShowActivityUpdate(false)}>Cancel</button>
+            </form>
+          </div>
+        )}
       </div>
 
       {/** Responsibilities Table **/}

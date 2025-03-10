@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DisplayCourses.css';
-import { IoMdAdd } from 'react-icons/io';
-
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
 const DisplayCourses = ({ coursesData }) => {
   const [data, setData] = useState(coursesData || []);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -38,6 +38,7 @@ const DisplayCourses = ({ coursesData }) => {
           }
         } catch (error) {
           console.error('Error fetching data:', error);
+          toast.error('Failed to fetch data');
         }
       };
 
@@ -62,8 +63,10 @@ const DisplayCourses = ({ coursesData }) => {
       });
       if (response.ok) {
         setData(data.filter((course) => course._id !== id));
+        toast.success('Course deleted successfully');
       }
     } catch (error) {
+      toast.error('Failed to delete course');
       console.error('Error deleting course:', error);
     }
   };
@@ -87,7 +90,7 @@ const DisplayCourses = ({ coursesData }) => {
         console.error('No token found in localStorage');
         return;
       }
-  
+
       const response = await fetch(`http://localhost:5000/update/courses/${selectedCourse._id}`, {
         method: 'PUT',
         headers: {
@@ -96,27 +99,29 @@ const DisplayCourses = ({ coursesData }) => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const updatedCourse = await response.json();
-  
+
         // Update the course in the existing state
         setData((prevData) =>
           prevData.map((course) =>
             course._id === updatedCourse._id ? updatedCourse : course
           )
         );
-  
+
         setShowForm(false); // Close the form after successful update
         setSelectedCourse(null); // Clear the selection
+        toast.success('Course updated successfully');
       } else {
-        console.error('Failed to update course:', response.statusText);
+        toast.error('Failed to update course');
       }
     } catch (error) {
       console.error('Error updating course:', error);
+      toast.error('Failed to update course');
     }
   };
-  
+
 
   // **Calculate average pass percentage and self-assessment marks**
   const totalPassPercentage = data.reduce((acc, cls) => acc + cls.passPercentage, 0);
@@ -133,6 +138,7 @@ const DisplayCourses = ({ coursesData }) => {
 
   return (
     <div>
+      <ToastContainer />
       <table className='courses-table'>
         <thead>
           <tr>
@@ -163,7 +169,7 @@ const DisplayCourses = ({ coursesData }) => {
                 <td>{course.numberOfStudents}</td>
                 <td>{course.passCount}</td>
                 <td>{((course.passCount / course.numberOfStudents) * 100).toFixed(2)}%</td>
-                
+
                 {index === 0 && (
                   <>
                     <td rowSpan={data.length}>{averagePassPercentage}</td>
@@ -171,11 +177,30 @@ const DisplayCourses = ({ coursesData }) => {
                   </>
                 )}
 
-                <td>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }} 
+                <td style={{ display: 'flex', justifyContent: 'center' }}>
+
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleUpdateClick(course); }}
                     style={{
-                      fontSize: "12px",
+                      fontSize: "16px",
+                      margin: "2px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      backgroundColor: "rgb(59 130 246)",
+                      color: "white",
+                      transition: "0.3s",
+                      width: "auto"
+                    }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = "#2980b9"}
+                    onMouseOut={(e) => e.target.style.backgroundColor = "#3498db"}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }}
+                    style={{
+                      fontSize: "16px",
                       padding: "4px 8px",
                       margin: "2px",
                       border: "none",
@@ -183,31 +208,13 @@ const DisplayCourses = ({ coursesData }) => {
                       cursor: "pointer",
                       backgroundColor: "#e74c3c",
                       color: "white",
-                      transition: "0.3s"
+                      transition: "0.3s",
+                      width: "auto"
                     }}
                     onMouseOver={(e) => e.target.style.backgroundColor = "#c0392b"}
                     onMouseOut={(e) => e.target.style.backgroundColor = "#e74c3c"}
                   >
-                    Delete
-                  </button>
-
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleUpdateClick(course); }} 
-                    style={{
-                      fontSize: "12px",
-                      padding: "4px 8px",
-                      margin: "2px",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      backgroundColor: "rgb(59 130 246)",
-                      color: "white",
-                      transition: "0.3s"
-                    }}
-                    onMouseOver={(e) => e.target.style.backgroundColor = "#2980b9"}
-                    onMouseOut={(e) => e.target.style.backgroundColor = "#3498db"}
-                  >
-                    Update
+                    <FaTrash />
                   </button>
                 </td>
               </tr>

@@ -19,7 +19,7 @@ router.post('/classes', isloggedin, async (req, res) => {
             semester,
             numberOfStudents,
             passCount,
-           
+
         } = req.body;
 
         if (!numberOfStudents || !passCount) {
@@ -37,7 +37,7 @@ router.post('/classes', isloggedin, async (req, res) => {
             totalMarks += 20;
         } else if (averagePassPercentage >= 85) {
             totalMarks += 15;
-        } else  {
+        } else {
             totalMarks += 10;
         }
         // Create a new class document
@@ -47,17 +47,17 @@ router.post('/classes', isloggedin, async (req, res) => {
             numberOfStudents,
             passCount,
             passPercentage, // Calculated value
-           
-            selfAssessmentMarks:totalMarks,
+
+            selfAssessmentMarks: totalMarks,
             averagePercentage: averagePassPercentage,
             teacher: user._id
         });
 
         // Save the new class to the database
         const savedClass = await newClass.save();
-         user.AvgSelfAsses = totalMarks; // Update the user's average self-assessment marks
-         await user.save(); // Save the updated user document
-         
+        user.AvgSelfAsses = totalMarks; // Update the user's average self-assessment marks
+        await user.save(); // Save the updated user document
+
         // Respond with the saved class and average pass percentage
         res.status(201).json({ savedClass, averagePassPercentage });
     } catch (error) {
@@ -82,11 +82,11 @@ router.post('/feedback', isloggedin, async (req, res) => {
         if (!numberOfStudents || feedbackpercent === undefined) {
             return res.status(400).json({ error: 'numberOfStudents and feedbackpercent are required fields' });
         }
-        
+
         // Fetch all feedback for the user
         const feedbacks = await Feedback.find({ teacher: user._id });
         const totalFeedbackPercentage = feedbacks.reduce((acc, fb) => acc + fb.feedbackPercentage, 0);
-      
+
         const averageFeedbackPercentage = feedbacks.length > 0 ? (totalFeedbackPercentage / feedbacks.length).toFixed(2) : 0;
 
         let totalMarks = 0;
@@ -94,7 +94,7 @@ router.post('/feedback', isloggedin, async (req, res) => {
             totalMarks += 20;
         } else if (averageFeedbackPercentage >= 85) {
             totalMarks += 15;
-        } else  {
+        } else {
             totalMarks += 10;
         }
 
@@ -154,27 +154,23 @@ router.get("/raw", isloggedin, async (req, res) => {
 
 router.delete("/courses/:id", async (req, res) => {
     try {
-      const { id } = req.params;
-      const deletedCourse = await Class.findByIdAndDelete(id);
-      if (!deletedCourse) {
-        return res.status(404).json({ message: "Course not found" });
-      }
-      res.json({ message: "Course deleted successfully" });
+        const { id } = req.params;
+        const deletedCourse = await Class.findByIdAndDelete(id);
+        if (!deletedCourse) {
+            return res.status(404).json({ message: "Course not found" });
+        }
+        res.json({ message: "Course deleted successfully" });
     } catch (error) {
-      console.error("Error deleting course:", error.message);
-      res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error deleting course:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-  });
+});
 
 
- 
-  router.put('/courses/:id', async (req, res) => {
+router.put('/courses/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { courseName, semester, numberOfStudents, passCount } = req.body;
-
-      
-      
 
         // Update the course
         const updatedCourse = await Class.findByIdAndUpdate(
@@ -188,7 +184,7 @@ router.delete("/courses/:id", async (req, res) => {
             return res.status(404).json({ message: 'Course not found' });
         }
 
-    
+
         res.json(updatedCourse);
 
     } catch (error) {
@@ -198,7 +194,7 @@ router.delete("/courses/:id", async (req, res) => {
 });
 
 
-  
+
 
 
 module.exports = router;
