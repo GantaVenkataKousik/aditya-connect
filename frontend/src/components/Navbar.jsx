@@ -2,7 +2,7 @@ import React from 'react';
 import { CgProfile } from "react-icons/cg";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import headlogo from '../images/main-logo.webp';
+import headlogo from '../images/aditya.jpg';
 import { useState, useEffect } from 'react';
 import { FaHome } from 'react-icons/fa';
 import adityaTag from '../images/aditya-tag.png';
@@ -52,7 +52,7 @@ const Navbar = () => {
 
       <div className='homeIcon' onClick={() => navigate('/home')} style={{ marginLeft: '20px', fontSize: '20px', cursor: 'pointer' }}> <FaHome /> </div>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', }}>
-        <img src={headlogo} alt="HeadLogo" style={{ border: '0', height: '100px', width: '350px' }} />
+        <img src={headlogo} alt="HeadLogo" style={{ border: '0', height: '140px', width: '220px' }} />
         <img src={adityaTag} alt="adityaTag" style={{ border: '0', height: '70px', width: '300px' }} />
       </div>
       <button

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../images/main-logo.webp';
+import Logo from '../images/aditya.jpg';
 import { useState } from 'react';
 import { FaSortDown } from "react-icons/fa";
 
