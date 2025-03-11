@@ -33,17 +33,6 @@ const Welcome = () => {
         />
       </div>
 
-      {/* Welcome Message */}
-      <h1
-        style={{
-          fontSize: '36px',
-          fontWeight: 'bold',
-          margin: '10px 0',
-        }}
-      >
-        Welcome
-      </h1>
-
       {/* Login Button */}
       <div style={{ position: 'relative', marginTop: '20px' }}>
         <button
