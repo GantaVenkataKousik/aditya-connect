@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { FaSortDown } from "react-icons/fa";
 
 const Welcome = () => {
+  const navigate = useNavigate();
+
   const [showOptions, setShowOptions] = useState(false);
 
   const handleLoginClick = () => {
