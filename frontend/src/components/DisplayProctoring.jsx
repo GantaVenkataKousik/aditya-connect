@@ -143,8 +143,8 @@ const ProctoringTable = ({ proctoringData }) => {
                                         </>
                                     )}
                                     <td style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                                        <button onClick={() => handleUpdateClick(proctor)} style={{ width: 'auto' }}> <FaEdit /> </button>
-                                        <button onClick={() => handleDelete(proctor._id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}> <FaTrash /> </button>
+                                        <button className='no-print' onClick={() => handleUpdateClick(proctor)} style={{ width: 'auto' }}> <FaEdit /> </button>
+                                        <button className='no-print' onClick={() => handleDelete(proctor._id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}> <FaTrash /> </button>
                                     </td>
                                 </tr>
                             );
@@ -166,8 +166,8 @@ const ProctoringTable = ({ proctoringData }) => {
                         <input type="number" name="passedStudents" value={formData.passedStudents} onChange={handleInputChange} placeholder="No. of Students Passed (B)" required />
                         <input type="number" name="averagePercentage" value={formData.averagePercentage} onChange={handleInputChange} placeholder="Average %" required />
                         <input type="number" name="selfAssessmentMarks" value={formData.selfAssessmentMarks} onChange={handleInputChange} placeholder="Self-Assessment Marks" required />
-                        <button type="submit">Save Changes</button>
-                        <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
+                        <button className='no-print' type="submit">Save Changes</button>
+                        <button className='no-print' type="button" onClick={() => setShowForm(false)}>Cancel</button>
                     </form>
                 </div>
             )}

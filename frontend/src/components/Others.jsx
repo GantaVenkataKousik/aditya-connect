@@ -117,8 +117,8 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addactivity')}>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={handleUpload}>Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={() => navigate('/addactivity')}>
             + Add
           </button>
         </div>
@@ -210,8 +210,8 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addresponsibility')}>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={handleUpload}>Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={() => navigate('/addresponsibility')}>
             + Add
           </button>
         </div>
@@ -229,7 +229,7 @@ const Others = ({ data: propsData }) => {
           <tbody>
             {responsibilities.length > 0 ? (
               responsibilities.map((res, index) => (
-                <tr key={index} className="border">
+                <tr key={index} className="border no-print">
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{res.Responsibility}</td>
                   <td className="p-2 border text-center">{res.assignedBy}</td>
@@ -294,8 +294,8 @@ const Others = ({ data: propsData }) => {
         </h2>
         <div className="flex justify-end items-center mb-2 gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addcontribution')}>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={handleUpload}>Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={() => navigate('/addcontribution')}>
             + Add
           </button>
         </div>
@@ -313,7 +313,7 @@ const Others = ({ data: propsData }) => {
           <tbody>
             {contribution.length > 0 ? (
               contribution.map((cont, index) => (
-                <tr key={index} className="border">
+                <tr key={index} className="border no-print">
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{cont.contributionDetails}</td>
                   <td className="p-2 border text-center">{cont.Benefit}</td>
@@ -375,10 +375,10 @@ const Others = ({ data: propsData }) => {
       <div className="mb-6 relative">
         <div className="flex justify-between items-center mb-2">
           <h2 className="font-bold text-base">9. Awards received by Faculty:</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 no-print">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}  >Upload</button>
-            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addaward')}>
+            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={handleUpload}  >Upload</button>
+            <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={() => navigate('/addaward')}>
               + Add
             </button>
           </div>
@@ -399,13 +399,13 @@ const Others = ({ data: propsData }) => {
           <tbody>
             {awards.length > 0 ? (
               awards.map((award, index) => (
-                <tr key={index} className="border">
+                <tr key={index} className="border no-print">
                   <td className="p-2 border text-center">{index + 1}</td>
                   <td className="p-2 border text-center">{award.awardName}</td>
                   <td className="p-2 border text-center">{award.awardedBy}</td>
                   <td className="p-2 border text-center">{award.level}</td>
                   <td className="p-2 border text-center">{award.description}</td>
-                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+                  <td style={{ display: 'flex', justifyContent: 'center' }} className='no-print'>
                     <button
                       onClick={(e) => { e.stopPropagation(); }}
                       style={{
@@ -419,6 +419,7 @@ const Others = ({ data: propsData }) => {
                         transition: "0.3s",
                         width: "auto"
                       }}
+                      className='no-print'
                     >
                       <FaEdit />
                     </button>
@@ -436,6 +437,7 @@ const Others = ({ data: propsData }) => {
                         transition: "0.3s",
                         width: "auto"
                       }}
+                      className='no-print'
                     >
                       <FaTrash />
                     </button>

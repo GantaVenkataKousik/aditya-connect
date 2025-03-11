@@ -16,7 +16,16 @@ const DisplayAll = () => {
       return;
     }
 
-    html2canvas(input, { scale: 2 }).then((canvas) => {
+    // Hide all elements with class "no-print" before capturing
+    const noPrintElements = input.querySelectorAll('.no-print');
+    noPrintElements.forEach(el => {
+      el.style.display = 'none';
+    });
+
+    html2canvas(input, {
+      scale: 2,
+      ignoreElements: element => element.classList.contains('no-print')
+    }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgWidth = 210;
@@ -36,8 +45,17 @@ const DisplayAll = () => {
       }
       const currentDate = new Date().toISOString().split('T')[0];
       pdf.save(`report_${currentDate}.pdf`);
+
+      // Restore visibility after PDF generation
+      noPrintElements.forEach(el => {
+        el.style.display = '';
+      });
     }).catch((error) => {
       console.error('Error generating PDF:', error);
+      // Restore visibility even if there's an error
+      noPrintElements.forEach(el => {
+        el.style.display = '';
+      });
     });
   };
 
@@ -49,7 +67,7 @@ const DisplayAll = () => {
           <h1 style={{ padding: '15px', marginTop: '30px', fontFamily: 'YourFontFamily' }}>PART B: Performance Attributes </h1>
         </div>
         <div className='flex justify-end'>
-          <button onClick={downloadPDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }}>
+          <button onClick={downloadPDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }} className='no-print'>
             <FaDownload style={{ marginRight: '8px' }} /> Report
           </button>
         </div>

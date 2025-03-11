@@ -106,8 +106,8 @@ const DisplayWorkshops = ({ data: propsData }) => {
         <h2 className="font-bold text-base">5. Workshops/FDPs/STTP/Refresher Courses Attended:</h2>
         <div className="flex items-center gap-2">
           <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={handleUpload}>Upload</button>
-          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8" onClick={() => navigate('/addworkshop')}>+ Add</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={handleUpload}>Upload</button>
+          <button className="p-1 bg-blue-500 text-white rounded text-sm w-24 h-8 no-print" onClick={() => navigate('/addworkshop')}>+ Add</button>
         </div>
       </div>
 
@@ -141,8 +141,8 @@ const DisplayWorkshops = ({ data: propsData }) => {
                     </td>
                     <td>{workshop.OrganizedBy || '-'}</td>
                     <td style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                      <button onClick={() => handleUpdateClick(workshop)} className="p-1 bg-blue-500 text-white rounded text-m  w-auto"><FaEdit /></button>
-                      <button onClick={() => handleDelete(workshop._id)} className="p-1 bg-red-500 text-white rounded text-m w-auto "><FaTrash /></button>
+                      <button onClick={() => handleUpdateClick(workshop)} className="p-1 bg-blue-500 text-white rounded text-m  w-auto no-print"><FaEdit /></button>
+                      <button onClick={() => handleDelete(workshop._id)} className="p-1 bg-red-500 text-white rounded text-m w-auto no-print "><FaTrash /></button>
                     </td>
                   </tr>
                 ))
@@ -168,8 +168,8 @@ const DisplayWorkshops = ({ data: propsData }) => {
                 <input type="date" name="Date" value={formData.Date} onChange={handleInputChange} placeholder="Date" />
                 <input type="text" name="Venue" value={formData.Venue} onChange={handleInputChange} placeholder="Venue" />
                 <input type="text" name="OrganizedBy" value={formData.OrganizedBy} onChange={handleInputChange} placeholder="Organized By" />
-                <button type="submit">Save Changes</button>
-                <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
+                <button className='no-print' type="submit">Save Changes</button>
+                <button className='no-print' type="button" onClick={() => setShowForm(false)}>Cancel</button>
               </form>
             </div>
           )}

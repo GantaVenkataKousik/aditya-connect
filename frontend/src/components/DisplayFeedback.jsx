@@ -136,7 +136,7 @@ const DisplayFeedback = ({ feedbackData }) => {
                                         <td rowSpan={data.length}>{data[data.length - 1].selfAssessmentMarks}</td>
                                     </>
                                 )}
-                                <td style={{ display: 'flex', justifyContent: 'center' }}>
+                                <td style={{ display: 'flex', justifyContent: 'center' }} className='no-print'>
                                     <div style={{ display: 'flex', gap: '10px' }}>
                                         <button onClick={() => handleUpdateClick(feedback)} style={{ width: 'auto' }}>
                                             <FaEdit />
@@ -165,8 +165,8 @@ const DisplayFeedback = ({ feedbackData }) => {
                         <input type='number' name='feedbackPercentage' value={formData.feedbackPercentage} onChange={handleInputChange} placeholder='Feedback Percentage' required />
                         <input type='number' name='averagePercentage' value={formData.averagePercentage} onChange={handleInputChange} placeholder='Average Percentage' required />
                         <input type='number' name='selfAssessmentMarks' value={formData.selfAssessmentMarks} onChange={handleInputChange} placeholder='Self-Assessment Marks' required />
-                        <button type='submit'>Save Changes</button>
-                        <button type='button' onClick={() => setShowForm(false)}>Cancel</button>
+                        <button type='submit' className='no-print'>Save Changes</button>
+                        <button type='button' onClick={() => setShowForm(false)} className='no-print'>Cancel</button>
                     </form>
                 </div>
             )}

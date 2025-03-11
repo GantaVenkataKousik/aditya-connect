@@ -2,9 +2,10 @@ import React from 'react';
 import { CgProfile } from "react-icons/cg";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import headlogo from '../images/headlogo.png';
+import headlogo from '../images/main-logo.webp';
 import { useState, useEffect } from 'react';
 import { FaHome } from 'react-icons/fa';
+import adityaTag from '../images/aditya-tag.png';
 const Navbar = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [user, setUser] = useState({});
@@ -50,8 +51,9 @@ const Navbar = () => {
     >
 
       <div className='homeIcon' onClick={() => navigate('/home')} style={{ marginLeft: '20px', fontSize: '20px', cursor: 'pointer' }}> <FaHome /> </div>
-      <div>
-        <img src={headlogo} alt="HeadLogo" style={{ border: '0', height: '80px', width: '400px' }} />
+      <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', }}>
+        <img src={headlogo} alt="HeadLogo" style={{ border: '0', height: '100px', width: '350px' }} />
+        <img src={adityaTag} alt="adityaTag" style={{ border: '0', height: '70px', width: '300px' }} />
       </div>
       <button
         style={{
@@ -68,6 +70,7 @@ const Navbar = () => {
           transition: 'background-color 0.3s ease',
           width: 'auto',
         }}
+        className='no-print'
         onClick={() => navigate('/about')}
         onMouseEnter={(e) => (e.target.style.backgroundColor = '#0056b3')}
         onMouseLeave={(e) => (e.target.style.backgroundColor = '#007bff')}

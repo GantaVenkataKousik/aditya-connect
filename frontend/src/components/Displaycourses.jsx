@@ -192,6 +192,7 @@ const DisplayCourses = ({ coursesData }) => {
                       transition: "0.3s",
                       width: "auto"
                     }}
+                    className='no-print'
                     onMouseOver={(e) => e.target.style.backgroundColor = "#2980b9"}
                     onMouseOut={(e) => e.target.style.backgroundColor = "#3498db"}
                   >
@@ -211,6 +212,7 @@ const DisplayCourses = ({ coursesData }) => {
                       transition: "0.3s",
                       width: "auto"
                     }}
+                    className='no-print'
                     onMouseOver={(e) => e.target.style.backgroundColor = "#c0392b"}
                     onMouseOut={(e) => e.target.style.backgroundColor = "#e74c3c"}
                   >

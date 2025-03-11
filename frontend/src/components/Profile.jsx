@@ -44,7 +44,15 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
   }, [initialDetails]);
   const downloadProfilePDF = () => {
     const input = document.getElementById('profileContent');
-    html2canvas(input, { scale: 2 }).then((canvas) => {
+    // Hide all elements with class "no-print" before capturing
+    const noPrintElements = input.querySelectorAll('.no-print');
+    noPrintElements.forEach(el => {
+      el.style.display = 'none';
+    });
+    html2canvas(input, {
+      scale: 2,
+      ignoreElements: element => element.classList.contains('no-print')
+    }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgWidth = 210;
@@ -80,7 +88,7 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
           PART A: Personal Information
         </h1>
         <div className='flex justify-end'>
-          <button onClick={downloadProfilePDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }}>
+          <button onClick={downloadProfilePDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }} className='no-print'>
             <FaDownload style={{ marginRight: '8px' }} /> Profile
           </button>
         </div>
@@ -166,7 +174,7 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
         </section>
 
         {/* Update Button */}
-        <button className="update-button" onClick={() => navigate("/add-user")}>
+        <button className="update-button no-print" onClick={() => navigate("/add-user")}>
           Update Details
         </button>
       </div>
