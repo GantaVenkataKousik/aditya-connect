@@ -2,7 +2,7 @@ import React from 'react';
 import { CgProfile } from "react-icons/cg";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import headlogo from '../images/aditya.png';
+import headlogo from '../images/aditya1.png';
 import { useState, useEffect } from 'react';
 import { FaHome } from 'react-icons/fa';
 import adityaTag from '../images/aditya-tag.png';

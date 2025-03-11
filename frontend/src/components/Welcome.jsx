@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../images/aditya.png';
+import Logo from '../images/aditya1.png';
 import { useState } from 'react';
 import { FaSortDown } from "react-icons/fa";
 
@@ -29,7 +29,7 @@ const Welcome = () => {
         <img
           src={Logo}
           alt="logo"
-          style={{ width: '35vw', height: '35vh' }} // Adjust size for a bigger logo
+          style={{ width: '30vw', height: '45vh' }} // Adjust size for a bigger logo
         />
       </div>
 
