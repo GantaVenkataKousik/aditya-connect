@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../images/aditya.jpg';
+import Logo from '../images/aditya.png';
 import { useState } from 'react';
 import { FaSortDown } from "react-icons/fa";
 
