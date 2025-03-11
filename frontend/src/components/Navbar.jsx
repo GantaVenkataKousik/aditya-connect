@@ -1,12 +1,12 @@
 import React from 'react';
 import { CgProfile } from "react-icons/cg";
 import { IoIosHelpCircleOutline } from "react-icons/io";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import headlogo from '../images/aditya-full.png';
 import { useState, useEffect } from 'react';
 import { FaHome } from 'react-icons/fa';
-import adityaTag from '../images/aditya-tag.png';
 import { IoLogOutOutline } from "react-icons/io5";
+
 const Navbar = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [user, setUser] = useState({});

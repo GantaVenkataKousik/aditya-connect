@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import Logo from '../images/aditya1.png';
 import { useState } from 'react';
 import { FaSortDown } from "react-icons/fa";
-
+import { useNavigate } from 'react-router-dom';
 const Welcome = () => {
   const navigate = useNavigate();
-
   const [showOptions, setShowOptions] = useState(false);
 
   const handleLoginClick = () => {
