@@ -25,7 +25,7 @@ const Welcome = () => {
       }}
     >
       {/* Centered Logo */}
-      <div style={{ marginBottom: '20px' }}>
+      <div>
         <img
           src={Logo}
           alt="logo"
@@ -34,7 +34,7 @@ const Welcome = () => {
       </div>
 
       {/* Login Button */}
-      <div style={{ position: 'relative', marginTop: '20px' }}>
+      <div style={{ position: 'relative' }}>
         <button
           style={{
             padding: '10px 20px',
@@ -52,7 +52,9 @@ const Welcome = () => {
           onMouseLeave={(e) => (e.target.style.backgroundColor = '#ff7f27')}
           onClick={handleLoginClick}
         >
-          Login as <FaSortDown />
+          <div className='flex items-center h-5'>
+            <h3>Login as</h3> <span className='ml-1'><FaSortDown /></span>
+          </div>
         </button>
 
         {/* Dropdown Options */}
@@ -147,7 +149,7 @@ const Welcome = () => {
           </Link>
         </h2>
       </div>
-    </div>
+    </div >
   );
 };
 
