@@ -174,33 +174,29 @@ const deleteOutreach = async (req, res) => {
 //Activities Controllers
 const updateActivityByIndex = async (req, res) => {
     try {
-        const { id, index } = req.params; // Assuming index is passed as a URL parameter
-        const { activityDetails, UploadFiles } = req.body;
+        const { id, index } = req.params;
+        const indexNum = parseInt(index, 10);
+        const { activityDetails } = req.body;
 
-        // Find the document by ID
-        const record = await Others.findById(id);
+        // Find the record for this user
+        const record = await Others.findOne({ userId: id });
+
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
 
-        // Check if the index is valid
-        if (index < 0 || index >= record.Activities.length) {
+        if (indexNum < 0 || indexNum >= record.Activities.length) {
             return res.status(400).json({ message: 'Invalid activity index' });
         }
 
-        // Update the specific activity
-        record.Activities[index].activityDetails = activityDetails;
-        if (UploadFiles) {
-            record.Activities[index].UploadFiles = UploadFiles;
-        }
+        record.Activities[indexNum].activityDetails = activityDetails;
 
-        // Save the updated document
         await record.save();
 
         res.json({
             success: true,
             message: 'Activity updated successfully',
-            updatedActivity: record.Activities[index]
+            updatedActivity: record.Activities[indexNum]
         });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -209,10 +205,10 @@ const updateActivityByIndex = async (req, res) => {
 
 const deleteActivityByIndex = async (req, res) => {
     try {
-        const { id, index } = req.params; // Assuming index is passed as a URL parameter
+        const { id, index } = req.params;
 
-        // Find the document by ID
-        const record = await Others.findById(id);
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
@@ -242,21 +238,23 @@ const deleteActivityByIndex = async (req, res) => {
 const updateResponsibilityByIndex = async (req, res) => {
     try {
         const { id, index } = req.params;
+        const indexNum = parseInt(index, 10);
         const { Responsibility, assignedBy, UploadFiles } = req.body;
 
-        const record = await Others.findById(id);
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
 
-        if (index < 0 || index >= record.Responsibilities.length) {
+        if (indexNum < 0 || indexNum >= record.Responsibilities.length) {
             return res.status(400).json({ message: 'Invalid responsibility index' });
         }
 
-        record.Responsibilities[index].Responsibility = Responsibility;
-        record.Responsibilities[index].assignedBy = assignedBy;
+        record.Responsibilities[indexNum].Responsibility = Responsibility;
+        record.Responsibilities[indexNum].assignedBy = assignedBy;
         if (UploadFiles) {
-            record.Responsibilities[index].UploadFiles = UploadFiles;
+            record.Responsibilities[indexNum].UploadFiles = UploadFiles;
         }
 
         await record.save();
@@ -264,7 +262,7 @@ const updateResponsibilityByIndex = async (req, res) => {
         res.json({
             success: true,
             message: 'Responsibility updated successfully',
-            updatedResponsibility: record.Responsibilities[index]
+            updatedResponsibility: record.Responsibilities[indexNum]
         });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -274,10 +272,17 @@ const updateResponsibilityByIndex = async (req, res) => {
 
 const updateContributionByIndex = async (req, res) => {
     try {
-        const { id, index } = req.params;
+        const { id } = req.params;
+        const index = parseInt(req.params.index, 10);
         const { contributionDetails, Benefit, UploadFiles } = req.body;
 
-        const record = await Others.findById(id);
+        // Check if index is a valid number
+        if (isNaN(index)) {
+            return res.status(400).json({ message: 'Invalid index format' });
+        }
+
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
@@ -309,7 +314,8 @@ const updateAwardByIndex = async (req, res) => {
         const { id, index } = req.params;
         const { Award, IssuingOrg, UploadFiles } = req.body;
 
-        const record = await Others.findById(id);
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
@@ -340,7 +346,8 @@ const deleteAwardByIndex = async (req, res) => {
     try {
         const { id, index } = req.params;
 
-        const record = await Others.findById(id);
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
@@ -367,7 +374,9 @@ const deleteAwardByIndex = async (req, res) => {
 const deleteContributionByIndex = async (req, res) => {
     try {
         const { id, index } = req.params;
-        const record = await Others.findById(id);
+
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }
@@ -393,7 +402,9 @@ const deleteContributionByIndex = async (req, res) => {
 const deleteResponsibilityByIndex = async (req, res) => {
     try {
         const { id, index } = req.params;
-        const record = await Others.findById(id);
+
+        // FIXED: Using userId instead of _id
+        const record = await Others.findOne({ userId: id });
         if (!record) {
             return res.status(404).json({ message: 'Record not found' });
         }

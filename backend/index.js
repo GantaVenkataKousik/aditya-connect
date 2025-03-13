@@ -37,7 +37,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
 //using routes
 app.use("/index", index1);
 app.use("/signup", signup);
