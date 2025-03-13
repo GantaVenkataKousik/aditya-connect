@@ -36,7 +36,7 @@ const corsOptions = {
     exposedHeaders: ['Authorization']
 };
 app.use(cors(corsOptions));
-
+const imageRoutes = require('./routes/images');
 //using routes
 app.use("/index", index1);
 app.use("/signup", signup);
@@ -51,6 +51,7 @@ app.use("/others", Others);
 app.use("/proc", proctoring);
 app.use("/users", users);
 app.use("/", partb);
+app.use('/images', imageRoutes);
 // Database Connection
 const ConnectDB = async () => {
     try {
