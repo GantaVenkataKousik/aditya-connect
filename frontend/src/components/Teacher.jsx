@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
-import DisplayCourses from './DisplayCourses';
+import DisplayCourses from './Displaycourses';
 import DisplayFeedback from './DisplayFeedback';
 import ProctoringTable from './DisplayProctoring';
 import ResearchText from './ResearchText';
