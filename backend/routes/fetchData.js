@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user-model');
 const Departments = require('../models/departments');
-const isloggedin = require('../middlewares/isloggedin');
 const Proctoring = require('../models/ProctoringModel');
 const Class = require('../models/class-model'); // Adjust path as needed
 const Research = require('../models/research'); // Adjust path as needed
@@ -11,7 +10,7 @@ const Workshop = require('../models/workshops');
 const mongoose = require('mongoose');
 
 // this is for profile.jsx
-router.get("/", isloggedin, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const email = req.user.email;
     const user = await User.findOne({ email: email });

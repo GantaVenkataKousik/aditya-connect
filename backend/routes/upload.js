@@ -1,4 +1,3 @@
-// backend/routes/upload.js
 const express = require('express');
 const upload = require('../middlewares/upload');
 const Class = require('../models/class-model'); // Import your models

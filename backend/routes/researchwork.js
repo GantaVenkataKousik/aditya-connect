@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user-model');
 const ResearchData = require('../models/research');
-const isloggedin = require('../middlewares/isloggedin');
 const mongoose = require('mongoose');
 
 
-router.post("/add", isloggedin, async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
     const email = req.user.email;
     const user = await User.findOne({ email });
@@ -29,7 +28,7 @@ router.post("/add", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/data", isloggedin, async (req, res) => {
+router.get("/data", async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -57,7 +56,7 @@ router.get("/otherResearch/:id", async (req, res) => {
   }
 })
 
-router.delete("/delete/:id", isloggedin, async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params;
     await ResearchData.findByIdAndDelete(id);
@@ -68,7 +67,7 @@ router.delete("/delete/:id", isloggedin, async (req, res) => {
   }
 });
 
-router.put("/update/:id", isloggedin, async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
@@ -84,38 +83,38 @@ router.put("/update/:id", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/process", isloggedin, async (req, res) => {
+router.get("/process", async (req, res) => {
   try {
     const userbranch = req.user.department;
 
     const unapprovedResearches = await ResearchData.aggregate([
-        { 
-            $match: { 
-                status: false, 
-                rejected: false 
-            } 
-        },
-        {
-            $lookup: {
-                from: 'users', // Replace 'users' with your actual user collection name
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userDetails'
-            }
-        },
-        { 
-            $unwind: '$userDetails' 
-        },
-        {
-            $match: {
-                'userDetails.department': userbranch
-            }
+      {
+        $match: {
+          status: false,
+          rejected: false
         }
+      },
+      {
+        $lookup: {
+          from: 'users', // Replace 'users' with your actual user collection name
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      {
+        $unwind: '$userDetails'
+      },
+      {
+        $match: {
+          'userDetails.department': userbranch
+        }
+      }
     ]);
 
     res.status(200).json(unapprovedResearches);
 
-} catch (error) {
+  } catch (error) {
     console.log("Error occured while getting data in HOD", error);
     res.status(500).json({ message: 'Failed to get research.' });
   }
@@ -152,7 +151,7 @@ router.put('/reject/:id', async (req, res) => {
   }
 });
 
-router.get("/researchtext", isloggedin, async (req, res) => {
+router.get("/researchtext", async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -161,8 +160,8 @@ router.get("/researchtext", isloggedin, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const researchText = await ResearchData.findOne({ userId:userId });
-   
+    const researchText = await ResearchData.findOne({ userId: userId });
+
     if (!researchText) {
       console.error("Research data not found for userId:", userId);
       // Return dummy data
@@ -249,8 +248,8 @@ router.get("/researchtext", isloggedin, async (req, res) => {
 });
 
 
-router.post("/addsciarticles",isloggedin, async(req,res)=>{
-  try{
+router.post("/addsciarticles", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { articleDetails, ISSN, authorPosition } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
@@ -267,14 +266,14 @@ router.post("/addsciarticles",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addwosarticles",isloggedin, async(req,res)=>{
-  try{
+router.post("/addwosarticles", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { articleDetails, ISSN, authorPosition } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
@@ -291,14 +290,14 @@ router.post("/addwosarticles",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addproposals",isloggedin, async(req,res)=>{
-  try{
+router.post("/addproposals", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { proposalDetails, fundingAgency, amount } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
@@ -315,14 +314,14 @@ router.post("/addproposals",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addpapers",isloggedin, async(req,res)=>{
-  try{
+router.post("/addpapers", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { paperDetails, authorPosition } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
@@ -339,14 +338,14 @@ router.post("/addpapers",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addbooks",isloggedin, async(req,res)=>{
-  try{
+router.post("/addbooks", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { bookDetails, ISBN } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
@@ -363,21 +362,21 @@ router.post("/addbooks",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addchapters",isloggedin, async(req,res)=>{
-  try{
+router.post("/addchapters", async (req, res) => {
+  try {
     const userId = req.user._id;
     const { chapterDetails, Publisher, ISBN, authorPosition } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
     if (!researchEntry) {
       researchEntry = new ResearchData({
         userId,
-        Chapters: [{ chapterDetails, Publisher, ISBN, authorPosition}]
+        Chapters: [{ chapterDetails, Publisher, ISBN, authorPosition }]
       });
     } else {
       researchEntry.Chapters.push({ chapterDetails, Publisher, ISBN, authorPosition });
@@ -387,62 +386,62 @@ router.post("/addchapters",isloggedin, async(req,res)=>{
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addpgranted",isloggedin, async(req,res)=>{
-  try{
+router.post("/addpgranted", async (req, res) => {
+  try {
     const userId = req.user._id;
-    const { PTitle, PNumber, CountryGranted,GrantedDate } = req.body;
+    const { PTitle, PNumber, CountryGranted, GrantedDate } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
     if (!researchEntry) {
       researchEntry = new ResearchData({
         userId,
-        PGranted: [{ PTitle, PNumber, CountryGranted,GrantedDate }]
+        PGranted: [{ PTitle, PNumber, CountryGranted, GrantedDate }]
       });
     } else {
-      researchEntry.PGranted.push({ PTitle, PNumber, CountryGranted,GrantedDate});
+      researchEntry.PGranted.push({ PTitle, PNumber, CountryGranted, GrantedDate });
     }
 
     // Save the updated document
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
-router.post("/addpfiled",isloggedin, async(req,res)=>{
-  try{
+router.post("/addpfiled", async (req, res) => {
+  try {
     const userId = req.user._id;
-    const { PTitle, PNumber, FiledinCountry,PublishedDate } = req.body;
+    const { PTitle, PNumber, FiledinCountry, PublishedDate } = req.body;
     let researchEntry = await ResearchData.findOne({ userId });
     if (!researchEntry) {
       researchEntry = new ResearchData({
         userId,
-        PFiled: [{ PTitle, PNumber, FiledinCountry,PublishedDate }]
+        PFiled: [{ PTitle, PNumber, FiledinCountry, PublishedDate }]
       });
     } else {
-      researchEntry.PFiled.push({PTitle, PNumber, FiledinCountry,PublishedDate});
+      researchEntry.PFiled.push({ PTitle, PNumber, FiledinCountry, PublishedDate });
     }
 
     // Save the updated document
     await researchEntry.save();
     res.status(201).json({ message: "Article added successfully!", data: researchEntry });
 
-  }catch(error){
+  } catch (error) {
     console.error("Error while adding article:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 })
 
 
-router.get("/sciarticles", isloggedin, async (req, res) => {
+router.get("/sciarticles", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -458,7 +457,7 @@ router.get("/sciarticles", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/wosarticles", isloggedin, async (req, res) => {
+router.get("/wosarticles", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -474,7 +473,7 @@ router.get("/wosarticles", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/proposals", isloggedin, async (req, res) => {
+router.get("/proposals", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -491,7 +490,7 @@ router.get("/proposals", isloggedin, async (req, res) => {
 });
 
 
-router.get("/papers", isloggedin, async (req, res) => {
+router.get("/papers", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -507,7 +506,7 @@ router.get("/papers", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/books", isloggedin, async (req, res) => {
+router.get("/books", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -523,7 +522,7 @@ router.get("/books", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/chapters", isloggedin, async (req, res) => {
+router.get("/chapters", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -539,7 +538,7 @@ router.get("/chapters", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/pgranted", isloggedin, async (req, res) => {
+router.get("/pgranted", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -555,7 +554,7 @@ router.get("/pgranted", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/pfiled", isloggedin, async (req, res) => {
+router.get("/pfiled", async (req, res) => {
   try {
     const userId = req.user._id;
     const researchEntry = await ResearchData.findOne({ userId });
@@ -571,34 +570,29 @@ router.get("/pfiled", isloggedin, async (req, res) => {
   }
 });
 
-router.get("/getdata",isloggedin,async(req,res)=>{
-  try{
-   const UserId=req.user._id;
-   const user=await User.findById(UserId);
-   if(!user){
-    return res.status(404).json({message:"User Not Found"});
-   }
-   const responseData={
-    CouAvgPerMarks:user.couAvgPerMarks,
-    CoufeedMarks:user.CoufeedMarks,
-    ProctoringMarks:user.ProctoringMarks,
-    SciMarks:user.SciMarks,
-    WosMarks:user.WosMarks,
-    ProposalMarks:user.ProposalMarks,
-    ResearchSelfAssesMarks:user.ResearchSelfAsses,
-    WorkSelfAssesMarks:user.WorkSelfAsses,
-    OutreachSelfAssesMarks:user.OutreachSelfAsses,
-    AddSelfAssesMarks:user.AddSelfAsses,
-    SpecialSelfAssesMarks:user.SpeacialSelfAsses,
-    // AvgSelfAssesMarks:user.AvgSelfAsses,
-    // ProctorSelfAssesMarks:user.ProctorSelfAsses,
-    
-    // WorkShopMarks:user.WorkshopMarks,
-    // FeedSelfAssesMarks:user.feedSelfAsses,
-   };
-   console.log(responseData);
-   res.status(200).json(responseData);
-  }catch(error){
+router.get("/getdata", async (req, res) => {
+  try {
+    const UserId = req.user._id;
+    const user = await User.findById(UserId);
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    const responseData = {
+      CouAvgPerMarks: user.couAvgPerMarks,
+      CoufeedMarks: user.CoufeedMarks,
+      ProctoringMarks: user.ProctoringMarks,
+      SciMarks: user.SciMarks,
+      WosMarks: user.WosMarks,
+      ProposalMarks: user.ProposalMarks,
+      ResearchSelfAssesMarks: user.ResearchSelfAsses,
+      WorkSelfAssesMarks: user.WorkSelfAsses,
+      OutreachSelfAssesMarks: user.OutreachSelfAsses,
+      AddSelfAssesMarks: user.AddSelfAsses,
+      SpecialSelfAssesMarks: user.SpeacialSelfAsses,
+    };
+    console.log(responseData);
+    res.status(200).json(responseData);
+  } catch (error) {
     console.error("Error fetching Data:", error);
     res.status(500).json({ message: "Internal server error" });
   }

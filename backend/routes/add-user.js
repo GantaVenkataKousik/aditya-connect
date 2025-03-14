@@ -6,7 +6,7 @@ const User = require('../models/user-model');
 router.put('/', async (req, res) => {
     try {
         const { email, EmpID, JoiningDate, Qualification, YearOfpass, UG, UGYear, PG, PGYear, Phd, PhdYear, Industry, OtherInst, OtherYear, TExp } = req.body;
-        
+
         // Check if email is provided
         if (!email) {
             return res.status(400).send('Email is required to update user details');

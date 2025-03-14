@@ -17,19 +17,17 @@ app.set("views", path.join(__dirname, "views"));
 const User = require(path.join(__dirname, "models", "user-model"));
 
 //requiring routes
-const index1 = require(path.join(__dirname, "routes", "index1"));
-const signup = require(path.join(__dirname, "routes", "signup"));
-const login = require(path.join(__dirname, "routes", "login"));
-const fetchData = require(path.join(__dirname, "routes", "fetchData"));
 const addUser = require(path.join(__dirname, "routes", "add-user"));
-const Research = require(path.join(__dirname, "routes", "researchwork"));
-const classroute = require(path.join(__dirname, "routes", "class-route"));
 const Articles = require(path.join(__dirname, "routes", "articles"));
-const Workshops = require(path.join(__dirname, "routes", "workshops"));
-const Others = require(path.join(__dirname, "routes", "others"));
+const classroute = require(path.join(__dirname, "routes", "class-route"));
+const fetchData = require(path.join(__dirname, "routes", "fetchData"));
+const login = require(path.join(__dirname, "routes", "login"));
 const proctoring = require(path.join(__dirname, "routes", "proctoring"));
+const Research = require(path.join(__dirname, "routes", "researchwork"));
+const signup = require(path.join(__dirname, "routes", "signup"));
 const users = require(path.join(__dirname, "routes", "user"));
-const partb = require(path.join(__dirname, "routes", "partb"));
+const Workshops = require(path.join(__dirname, "routes", "workshops"));
+
 const corsOptions = {
     origin: 'http://localhost:5173',
     credentials: true,
@@ -39,19 +37,17 @@ app.use(cors(corsOptions));
 
 
 //using routes
-app.use("/index", index1);
-app.use("/signup", signup);
-app.use("/login", login);
-app.use("/fetchData", fetchData);
 app.use("/add-user", addUser);
-app.use("/research", Research);
-app.use("/update", classroute);
-app.use("/article", Articles);
-app.use("/workshop", Workshops);
-app.use("/others", Others);
-app.use("/proc", proctoring);
+app.use("/articles", Articles);
+app.use("/classes", classroute);
+app.use("/fetch-data", fetchData);
+app.use("/login", login);
+app.use("/proctoring", proctoring);
+app.use("/researchwork", Research);
+app.use("/signup", signup);
 app.use("/users", users);
-app.use("/partb", partb);
+app.use("/workshops", Workshops);
+
 // Database Connection
 const ConnectDB = async () => {
     try {

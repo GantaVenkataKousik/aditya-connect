@@ -1,40 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user-model');
-const Articles=require('../models/articles');
-const isloggedin = require('../middlewares/isloggedin');
+const Articles = require('../models/articles');
 
-router.post("/add",isloggedin ,async(req ,res)=>{
-   try{
-     const user = await User.findById(req.user._id);
-     if (!user) {
+router.post("/add", async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
       return res.status(404).json({ error: "User not found" });
-  }
-  const {
-    title,
-    content,
-    createdAt,
-  }=req.body;
+    }
+    const {
+      title,
+      content,
+      createdAt,
+    } = req.body;
 
-  const newArticle= new Articles({
-    title,
-    content,
-    author:user._id,
-    createdAt,
+    const newArticle = new Articles({
+      title,
+      content,
+      author: user._id,
+      createdAt,
 
-  });
-  const savedArticle=await newArticle.save();
-  res.status(201).json(savedArticle);
+    });
+    const savedArticle = await newArticle.save();
+    res.status(201).json(savedArticle);
 
-   }catch(error){
+  } catch (error) {
     console.error('Error saving Article:', error);
     res.status(400).json({ error: error.message });
-   }
+  }
 });
 
-router.get("/data",async(req,res)=>{
-  try{
-    const ArticleData=await Articles.aggregate([
+router.get("/data", async (req, res) => {
+  try {
+    const ArticleData = await Articles.aggregate([
       {
         $lookup: {
           from: "users", // Name of the users collection
@@ -63,9 +62,9 @@ router.get("/data",async(req,res)=>{
     ]);
     res.status(200).json(ArticleData);
 
-  }catch(error){
-    console.log("Unable to fetch the data:",error);
-    res.status(500).json({message:"Unable to fetch the data"});
+  } catch (error) {
+    console.log("Unable to fetch the data:", error);
+    res.status(500).json({ message: "Unable to fetch the data" });
   }
 })
 
@@ -87,19 +86,19 @@ router.post('/:id/dislike', async (req, res) => {
   }
 });
 
-router.get('/othersArticles/:id',async (req,res)=> {
-  const  Id =req.params.id;
+router.get('/othersArticles/:id', async (req, res) => {
+  const Id = req.params.id;
   try {
-      const OthersArticles = await Articles.find({ author: Id });
-      if (OthersArticles.length === 0) {
-        return res.status(404).json({ message: "No Articles found for this user" });
-      }
-      res.status(200).json(OthersArticles);
-    } catch (error) {
-      console.log("Failed to fetch the Artilces!!", error);
-      res.status(500).json({ message: "Unable to fetch the Articles" });
+    const OthersArticles = await Articles.find({ author: Id });
+    if (OthersArticles.length === 0) {
+      return res.status(404).json({ message: "No Articles found for this user" });
     }
+    res.status(200).json(OthersArticles);
+  } catch (error) {
+    console.log("Failed to fetch the Artilces!!", error);
+    res.status(500).json({ message: "Unable to fetch the Articles" });
+  }
 
 });
 
-module.exports=router;
+module.exports = router;

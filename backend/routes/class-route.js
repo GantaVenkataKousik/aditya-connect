@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Class = require('../models/class-model');
-const isloggedin = require('../middlewares/isloggedin');
 const User = require('../models/user-model');
 const Feedback = require('../models/Feedback');
 const mongoose = require('mongoose');
 
 
-router.post('/classes', isloggedin, async (req, res) => {
+router.post('/classes', async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
         if (!user) {
@@ -65,7 +64,7 @@ router.post('/classes', isloggedin, async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-router.post('/feedback', isloggedin, async (req, res) => {
+router.post('/feedback', async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
         if (!user) {
@@ -124,7 +123,7 @@ router.post('/feedback', isloggedin, async (req, res) => {
     }
 });
 
-router.get("/fdata", isloggedin, async (req, res) => {
+router.get("/fdata", async (req, res) => {
     const userId = req.user._id;
 
     try {
@@ -138,7 +137,7 @@ router.get("/fdata", isloggedin, async (req, res) => {
     }
 });
 
-router.get("/raw", isloggedin, async (req, res) => {
+router.get("/raw", async (req, res) => {
     const userId = req.user._id;
 
     try {

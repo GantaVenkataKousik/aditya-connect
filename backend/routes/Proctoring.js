@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Proctoring = require("../models/ProctoringModel");
-const isloggedin = require('../middlewares/isloggedin');
 const User = require("../models/user-model");
 // Fetch all proctoring data
-router.get("/proctoring-data",isloggedin, async (req, res) => {
+router.get("/proctoring-data", async (req, res) => {
     try {
         const userId = req.user._id;  // Get userId from logged-in user
         const data = await Proctoring.find({ teacher: userId });
@@ -16,7 +15,7 @@ router.get("/proctoring-data",isloggedin, async (req, res) => {
 });
 
 // Add new proctoring data
-router.post("/proctoring-data", isloggedin, async (req, res) => {
+router.post("/proctoring-data", async (req, res) => {
     try {
         // Fetch the logged-in user
         const user = await User.findById(req.user._id);
@@ -38,7 +37,7 @@ router.post("/proctoring-data", isloggedin, async (req, res) => {
         const totalPassPercentage =
             proctoringRecords.length > 0
                 ? proctoringRecords.reduce((sum, record) => sum + (record.passedStudents / record.eligibleStudents) * 100, 0) /
-                  proctoringRecords.length
+                proctoringRecords.length
                 : (passedStudents / eligibleStudents) * 100;
 
         // Determine self-assessment marks based on the percentage
@@ -66,7 +65,7 @@ router.post("/proctoring-data", isloggedin, async (req, res) => {
 
         await newProctoring.save();
 
-        user.ProctorSelfAsses =selfAssessmentMarks ; 
+        user.ProctorSelfAsses = selfAssessmentMarks;
         await user.save();
 
         // Respond with saved data
