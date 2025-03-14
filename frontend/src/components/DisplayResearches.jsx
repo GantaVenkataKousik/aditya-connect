@@ -162,6 +162,7 @@ const DisplayResearches = () => {
                       alignItems: 'center',
                       gap: '5px',
                     }}
+                    className='no-print'
                   >
                     <FaEdit />
                   </button>
@@ -178,6 +179,7 @@ const DisplayResearches = () => {
                       alignItems: 'center',
                       gap: '5px',
                     }}
+                    className='no-print'
                   >
                     <FaTrash />
                   </button>

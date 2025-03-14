@@ -79,6 +79,7 @@ const ResearchText = ({ data: propsData }) => {
               <th>Research Item</th>
               <th>Count</th>
               <th>Marks Obtained</th>
+              
             </tr>
           </thead>
           <tbody>

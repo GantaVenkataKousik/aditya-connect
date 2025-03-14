@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
 
         // Generate token
         const token = generatetoken(user);
-      
+
 
         // Set cookie with token
         res.cookie('token', token, {
@@ -36,11 +36,15 @@ router.post('/login', async (req, res) => {
             secure: process.env.NODE_ENV === 'production', // Use only over HTTPS in production
             sameSite: 'strict', // Prevent CSRF (restrict cross-site requests)
             maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years in milliseconds
-          });
-          res.cookie.token;
+        });
+        res.cookie.token;
 
-        // Respond with success message
-        res.status(200).json({ message: 'Login successful!', token });
+        // IMPORTANT: Return user ID along with token
+        res.status(200).json({
+            message: 'Login successful!',
+            token,
+            userId: user._id  // Include userId in the response
+        });
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Server error. Please try again later.' });

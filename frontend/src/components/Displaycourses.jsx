@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './DisplayCourses.css';
+<<<<<<< HEAD
 import { IoMdAdd } from 'react-icons/io';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+=======
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
 const DisplayCourses = ({ coursesData }) => {
   const [data, setData] = useState(coursesData || []);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -40,6 +45,7 @@ const DisplayCourses = ({ coursesData }) => {
           }
         } catch (error) {
           console.error('Error fetching data:', error);
+          toast.error('Failed to fetch data');
         }
       };
 
@@ -62,14 +68,21 @@ const DisplayCourses = ({ coursesData }) => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
+<<<<<<< HEAD
       const data = await response.json();
       if (data.success) {
         setData(data.deletedCourse);
         toast.success('Course deleted successfully!');
       } else {
         toast.error('Failed to delete course. Please try again.');
+=======
+      if (response.ok) {
+        setData(data.filter((course) => course._id !== id));
+        toast.success('Course deleted successfully');
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
       }
     } catch (error) {
+      toast.error('Failed to delete course');
       console.error('Error deleting course:', error);
       toast.error('An error occurred while deleting the course. Please try again.');
     }
@@ -104,9 +117,14 @@ const DisplayCourses = ({ coursesData }) => {
         body: JSON.stringify(formData),
       });
 
+<<<<<<< HEAD
       const data = await response.json();
       if (data.success) {
         const updatedCourse = data.updatedCourse;
+=======
+      if (response.ok) {
+        const updatedCourse = await response.json();
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
 
         // Update the course in the existing state
         setData((prevData) =>
@@ -117,6 +135,7 @@ const DisplayCourses = ({ coursesData }) => {
 
         setShowForm(false); // Close the form after successful update
         setSelectedCourse(null); // Clear the selection
+<<<<<<< HEAD
         toast.success('Details successfully updated!');
       } else {
         console.error('Failed to update course:', response.statusText);
@@ -125,6 +144,15 @@ const DisplayCourses = ({ coursesData }) => {
     } catch (error) {
       console.error('Error updating course:', error);
       toast.error('An error occurred while updating the course. Please try again.');
+=======
+        toast.success('Course updated successfully');
+      } else {
+        toast.error('Failed to update course');
+      }
+    } catch (error) {
+      console.error('Error updating course:', error);
+      toast.error('Failed to update course');
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
     }
   };
 
@@ -183,11 +211,37 @@ const DisplayCourses = ({ coursesData }) => {
                   </>
                 )}
 
+<<<<<<< HEAD
                 <td>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }}
+=======
+                <td style={{ display: 'flex', justifyContent: 'center' }}>
+
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleUpdateClick(course); }}
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
                     style={{
-                      fontSize: "12px",
+                      fontSize: "16px",
+                      margin: "2px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      backgroundColor: "rgb(59 130 246)",
+                      color: "white",
+                      transition: "0.3s",
+                      width: "auto"
+                    }}
+                    className='no-print'
+                    onMouseOver={(e) => e.target.style.backgroundColor = "#2980b9"}
+                    onMouseOut={(e) => e.target.style.backgroundColor = "#3498db"}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(course._id); }}
+                    style={{
+                      fontSize: "16px",
                       padding: "4px 8px",
                       margin: "2px",
                       border: "none",
@@ -195,11 +249,14 @@ const DisplayCourses = ({ coursesData }) => {
                       cursor: "pointer",
                       backgroundColor: "#e74c3c",
                       color: "white",
-                      transition: "0.3s"
+                      transition: "0.3s",
+                      width: "auto"
                     }}
+                    className='no-print'
                     onMouseOver={(e) => e.target.style.backgroundColor = "#c0392b"}
                     onMouseOut={(e) => e.target.style.backgroundColor = "#e74c3c"}
                   >
+<<<<<<< HEAD
                     Delete
                   </button>
 
@@ -220,6 +277,9 @@ const DisplayCourses = ({ coursesData }) => {
                     onMouseOut={(e) => e.target.style.backgroundColor = "#3498db"}
                   >
                     Update
+=======
+                    <FaTrash />
+>>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
                   </button>
                 </td>
               </tr>

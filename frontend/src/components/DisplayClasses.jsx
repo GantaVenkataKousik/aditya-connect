@@ -176,7 +176,7 @@ const DisplayClasses = () => {
                   <span style={{ fontSize: '1rem', color: '#333', fontWeight: '500' }}>
                     Share this link to the Students for Feedback
                   </span>
-                  <button onClick={generateLink} style={{ 
+                  <button className='no-print' onClick={generateLink} style={{ 
                     padding: '10px 15px', 
                     backgroundColor: "rgb(117 117 117)", 
                     color: '#fff', 
