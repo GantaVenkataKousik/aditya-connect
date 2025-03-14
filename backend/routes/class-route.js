@@ -159,15 +159,7 @@ router.delete("/courses/:id", async (req, res) => {
         if (!deletedCourse) {
             return res.status(404).json({ message: "Course not found" });
         }
-<<<<<<< HEAD
-        res.json({
-            success: true,
-            message: 'Course deleted successfully',
-            deletedCourse
-        });
-=======
         res.json({ message: "Course deleted successfully" });
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
     } catch (error) {
         console.error("Error deleting course:", error.message);
         res.status(500).json({ error: "Internal Server Error" });
@@ -175,18 +167,10 @@ router.delete("/courses/:id", async (req, res) => {
 });
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
 router.put('/courses/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { courseName, semester, numberOfStudents, passCount } = req.body;
-<<<<<<< HEAD
-=======
-
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
         // Update the course
         const updatedCourse = await Class.findByIdAndUpdate(
             id,
@@ -198,18 +182,10 @@ router.put('/courses/:id', async (req, res) => {
             console.log("No course found with ID:", id);
             return res.status(404).json({ message: 'Course not found' });
         }
-<<<<<<< HEAD
-        res.json({
-            success: true,
-            message: 'Course updated successfully',
-            updatedCourse
-        });
-=======
 
 
         res.json(updatedCourse);
 
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
     } catch (error) {
         console.error('Error updating course:', error.message);
         res.status(500).json({ message: 'Server error', error: error.message });

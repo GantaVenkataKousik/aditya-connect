@@ -16,13 +16,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
-=======
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
   },
   "author": "",
   "license": "ISC",
