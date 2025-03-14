@@ -2,15 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./Profile.css";
-<<<<<<< HEAD
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-import { FaDownload } from 'react-icons/fa';
-=======
 import { FaDownload } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
 const Profile = ({ lecturerDetails: initialDetails }) => {
   const [lecturerDetails, setLecturerDetails] = useState(initialDetails || {});
   const [loading, setLoading] = useState(!initialDetails);
@@ -81,32 +75,6 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
     });
   };
 
-  const downloadProfilePDF = () => {
-    const input = document.getElementById('profileContent');
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      const currentDate = new Date().toISOString().split('T')[0];
-      pdf.save(`profile_report_${currentDate}.pdf`);
-    });
-  };
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
@@ -119,11 +87,7 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
           PART A: Personal Information
         </h1>
         <div className='flex justify-end'>
-<<<<<<< HEAD
-          <button onClick={downloadProfilePDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }}>
-=======
           <button onClick={downloadProfilePDF} style={{ width: 'auto', margin: '20px', padding: '10px', fontSize: '16px', display: 'flex', alignItems: 'center' }} className='no-print'>
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
             <FaDownload style={{ marginRight: '8px' }} /> Profile
           </button>
         </div>

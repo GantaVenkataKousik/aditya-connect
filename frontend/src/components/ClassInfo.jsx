@@ -27,15 +27,9 @@ const ClassInfo = () => {
         <div className="header">
           <h2 className="title">1.Courses Average Pass Percentage:</h2>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <input type="file" name="image" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} onChange={handleFileChange} />
-            <button className="bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center" onClick={handleUpload}>Upload</button>
-            <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center" onClick={() => navigate('/class')}>
-=======
             <input type="file" name="image" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
             <button className="bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center no-print" onClick={handleUpload}>Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center no-print" onClick={() => navigate('/class')}>
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
               <IoMdAdd /> Add
             </button>
           </div>
@@ -48,13 +42,8 @@ const ClassInfo = () => {
           <h2 className="title">2.Course Feedback:</h2>
           <div className="flex items-center gap-2">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-<<<<<<< HEAD
-            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center">Upload</button>
-            <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center" onClick={() => navigate('/feedback')} >
-=======
             <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center no-print" onClick={handleUpload} >Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm h-8 w-21 flex items-center justify-center no-print" onClick={() => navigate('/feedback')} >
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
               <IoMdAdd /> Add
             </button>
           </div>
@@ -67,13 +56,8 @@ const ClassInfo = () => {
           <h2 className="title">3.Proctoring Students Average Pass Percentage:</h2>
           <div className="flex items-center gap-2">
             <input type="file" style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '8px' }} />
-<<<<<<< HEAD
-            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center">Upload</button>
-            <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center" onClick={() => navigate('/proctoring')} >
-=======
             <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center no-print" onClick={handleUpload}>Upload</button>
             <button className=" bg-blue-500 text-white rounded text-sm w-21 h-8 flex items-center justify-center no-print" onClick={() => navigate('/proctoring')} >
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
               <IoMdAdd /> Add
             </button>
           </div>

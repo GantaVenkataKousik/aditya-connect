@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DisplayProctoring.css'; // Import the CSS file
-<<<<<<< HEAD
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-
-=======
 import { toast, ToastContainer } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
 const ProctoringTable = ({ proctoringData }) => {
     const [data, setData] = useState(proctoringData || []); // Initialize with props data if available
     const [showForm, setShowForm] = useState(false);
@@ -110,34 +104,6 @@ const ProctoringTable = ({ proctoringData }) => {
     };
 
 
-    const handleEdit = async (id) => {
-        const data = await fetch(`http://localhost:5000/partb/proctoring/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-        if (data.ok) {
-            toast.success("Proctoring updated successfully");
-        } else {
-            toast.error("Failed to update proctoring");
-        }
-    };
-
-    const handleDelete = async (id) => {
-        const data = await fetch(`http://localhost:5000/partb/proctoring/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (data.ok) {
-            toast.success("Proctoring deleted successfully");
-        } else {
-            toast.error("Failed to delete proctoring");
-        }
-    };
     return (
         <div>
             <ToastContainer />
@@ -177,17 +143,9 @@ const ProctoringTable = ({ proctoringData }) => {
                                             <td rowSpan={data.length}>{data[data.length - 1]?.selfAssessmentMarks || selfAssessmentMarks}</td>
                                         </>
                                     )}
-<<<<<<< HEAD
-                                    <td style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <div style={{ display: 'flex', gap: '10px' }}>
-                                            <button onClick={() => handleEdit(proctor.id)} style={{ width: 'auto' }}>   <FaEdit /></button>
-                                            <button onClick={() => handleDelete(proctor.id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}><FaTrash /> </button>
-                                        </div>
-=======
                                     <td style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
                                         <button className='no-print' onClick={() => handleUpdateClick(proctor)} style={{ width: 'auto' }}> <FaEdit /> </button>
                                         <button className='no-print' onClick={() => handleDelete(proctor._id)} style={{ width: 'auto', backgroundColor: 'red', color: 'white' }}> <FaTrash /> </button>
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
                                     </td>
                                 </tr>
                             );

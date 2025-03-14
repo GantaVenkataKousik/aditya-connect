@@ -800,11 +800,7 @@ const Others = ({ data: propsData }) => {
               <th className="border p-2 text-center">Awarded By</th>
               <th className="border p-2 text-center">Level</th>
               <th className="border p-2 text-center">Description</th>
-<<<<<<< HEAD
-              <th className="border p-2 text-center">Upload</th>
-=======
               <th className="border p-2 text-center">Actions</th>
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
             </tr>
           </thead>
           <tbody>
@@ -816,9 +812,6 @@ const Others = ({ data: propsData }) => {
                   <td className="p-2 border text-center">{award.awardedBy}</td>
                   <td className="p-2 border text-center">{award.level}</td>
                   <td className="p-2 border text-center">{award.description}</td>
-<<<<<<< HEAD
-                  
-=======
                   <td style={{ display: 'flex', justifyContent: 'center' }} className='no-print'>
                     <button
                       className='no-print'
@@ -856,7 +849,6 @@ const Others = ({ data: propsData }) => {
                       <FaTrash />
                     </button>
                   </td>
->>>>>>> 25829bfa86117348c33ba0780c7065ad922299a1
                 </tr>
               ))
             ) : (
