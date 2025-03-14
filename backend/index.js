@@ -62,6 +62,10 @@ const ConnectDB = async () => {
 // Call the database connection function
 ConnectDB();
 
+app.get("/", (req, res) => {
+    res.send("Hello, Welcome to the backend of the Aditya Connect");
+});
+
 // Routes
 app.get("/logout", (req, res) => {
     res.clearCookie("token");
