@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
-import DisplayCourses from './DisplayCourses';
-import DisplayFeedback from './DisplayFeedback';
-import ProctoringTable from './DisplayProctoring';
-import ResearchText from './ResearchText';
-import DisplayWorkshops from './DisplayWorkshops';
+import DisplayCourses from './DisplayCourses.jsx';
+import DisplayFeedback from './DisplayFeedback.jsx';
+import ProctoringTable from './DisplayProctoring.jsx';
+import ResearchText from './ResearchText.jsx';
+import DisplayWorkshops from './DisplayWorkshops.jsx';
 
 const Teacher = ({ faculty }) => {
   const { id } = useParams();
