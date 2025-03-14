@@ -24,6 +24,7 @@ router.get('/data', isloggedin, async (req, res) => {
     user.OutreachSelfAsses = ActivityMarks;
     user.AddSelfAsses = ResponsibilityMarks;
     user.SpeacialSelfAsses = ContributionMarks;
+    
     await user.save();
 
     return res.status(200).json({

@@ -2,8 +2,6 @@ const Feedback = require('../models/Feedback');
 const Proctoring = require('../models/ProctoringModel');
 const Research = require('../models/research');
 const Workshops = require('../models/workshops');
-const User = require('../models/user-model');
-
 
 
 //Feedback Controllers
@@ -12,7 +10,7 @@ const updateFeedback = async (req, res) => {
         const { id } = req.params;
         const { semester, courseName, numberOfStudents, feedbackPercentage, averagePercentage, selfAssessmentMarks } = req.body;
         const updatedFeedback = await Feedback.findByIdAndUpdate(id, { semester, courseName, numberOfStudents, feedbackPercentage, averagePercentage, selfAssessmentMarks }, { new: true });
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Feedback updated successfully',
             updatedFeedback
@@ -26,7 +24,7 @@ const deleteFeedback = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedFeedback = await Feedback.findByIdAndDelete(id);
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Feedback deleted successfully',
             deletedFeedback
@@ -38,15 +36,13 @@ const deleteFeedback = async (req, res) => {
 
 
 
-
-
 //Proctoring Controllers
 const updateProctoring = async (req, res) => {
     try {
         const { id } = req.params;
         const { totalStudents, semesterBranchSec, eligibleStudents, passedStudents, averagePercentage, selfAssessmentMarks } = req.body;
         const updatedProctoring = await Proctoring.findByIdAndUpdate(id, { totalStudents, semesterBranchSec, eligibleStudents, passedStudents, averagePercentage, selfAssessmentMarks }, { new: true });
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Proctoring updated successfully',
             updatedProctoring
@@ -60,7 +56,7 @@ const deleteProctoring = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedProctoring = await Proctoring.findByIdAndDelete(id);
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Proctoring deleted successfully',
             deletedProctoring
@@ -106,9 +102,9 @@ const deleteResearch = async (req, res) => {
 const updateWorkshops = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, category, date, startTime, endTime, venue, mode, organizedBy } = req.body;
-        const updatedWorkshops = await Workshops.findByIdAndUpdate(id, { title, description, category, date, startTime, endTime, venue, mode, organizedBy }, { new: true });
-        res.json({
+        const { title, Description, Category, Date, Venue, OrganizedBy } = req.body;
+        const updatedWorkshops = await Workshops.findByIdAndUpdate(id, { title, Description, Category, Date, Venue, OrganizedBy }, { new: true });
+        res.status(200).json({
             success: true,
             message: 'Workshops updated successfully',
             updatedWorkshops
@@ -122,7 +118,7 @@ const deleteWorkshops = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedWorkshops = await Workshops.findByIdAndDelete(id);
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Workshops deleted successfully',
             deletedWorkshops

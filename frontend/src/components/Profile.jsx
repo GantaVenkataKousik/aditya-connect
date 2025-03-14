@@ -13,8 +13,7 @@ const Profile = ({ lecturerDetails: initialDetails }) => {
 
   useEffect(() => {
     const fetchLecturerDetails = async () => {
-      if (initialDetails) return; // If data is already passed as props, skip API call
-
+      if (initialDetails) return;
       try {
         const token = localStorage.getItem("token");
         const response = await fetch("http://localhost:5000/fetchData", {
